@@ -5,15 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,59 +30,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextUser = (EditText) findViewById(R.id.editTextUser);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        buttonLogIn = (Button) findViewById(R.id.buttonLogIn);
+        editTextUser = findViewById(R.id.editTextUser);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonLogIn = findViewById(R.id.buttonRegister);
+        buttonLogIn.setOnClickListener(this);
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
-
     }
 
     //method for user login
     private void userLogin() {
         String email = editTextUser.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        boolean cancel = false;
+
+        editTextUser.setError(null);
+        editTextPassword.setError(null);
 
         //checking if email and passwords are empty
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_LONG).show();
-            return;
+            editTextUser.setError("Please enter a valid and not empty email");
+            cancel = true;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_LONG).show();
+            editTextPassword.setError("Please enter a password");
+            cancel = true;
+        }
+
+        if (cancel) {
             return;
         }
 
         //logging in the user
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        //if the task is successfull
-                        if (task.isSuccessful()) {
-                            //start the profile activity
-                            finish();
-                            //startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                        }
+                    public void onSuccess(AuthResult authResult) {
+                        //start the profile activity
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Error", e.toString());
-            }
-            });
-
-            }
-
-    @Override
-    public void onClick(View v) {
-
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),
+                                        e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
+    public void onClick(View v) {
+        if (v.getId() == R.id.buttonRegister) {
+            userLogin();
+        }
     }
 }

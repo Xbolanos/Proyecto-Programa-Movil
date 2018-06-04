@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -33,57 +33,63 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        editTextUser = (EditText) findViewById(R.id.editTextUser);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        buttonSignup = (Button) findViewById(R.id.buttonLogIn);
-        textViewSignin = (TextView) findViewById(R.id.textViewSignin);
+        editTextUser = findViewById(R.id.editTextUser);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonSignup = findViewById(R.id.buttonRegister);
+        textViewSignin = findViewById(R.id.textViewSignin);
         buttonSignup.setOnClickListener(this);
         textViewSignin.setOnClickListener(this);
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
 
         if(firebaseAuth.getCurrentUser() != null){
+            //and open profile activity
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
             //that means user is already logged in
             //so close this activity
             finish();
-
-            //and open profile activity
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         }
 
     }
 
     private void registerUser(){
-
         //getting email and password from edit texts
         String email = editTextUser.getText().toString().trim();
         String password  = editTextPassword.getText().toString().trim();
+        boolean cancel = false;
+
+        editTextUser.setError(null);
+        editTextPassword.setError(null);
 
         //checking if email and passwords are empty
-        if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Por favor ingrese el correo",Toast.LENGTH_LONG).show();
-            return;
+        if (TextUtils.isEmpty(email)) {
+            editTextUser.setError("Please enter a valid and not empty email");
+            cancel = true;
         }
 
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Por favor ingrese la contraseña",Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError("Please enter a password");
+            cancel = true;
+        }
+
+        if (cancel) {
             return;
         }
 
         //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //checking if success
-                        if(task.isSuccessful()){
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                        }else{
-                            //display some message here
-                            Toast.makeText(SignUpActivity.this,"Error de registro",Toast.LENGTH_LONG).show();
-                        }
-
+                    public void onSuccess(AuthResult authResult) {
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),
+                                        e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -92,15 +98,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
 
-        if(view == buttonSignup){
+        if(view.getId() == R.id.buttonRegister){
             registerUser();
         }
 
-        if(view == textViewSignin){
+        if(view.getId() == R.id.textViewSignin){
             //open login activity when user taps on the already registered textview
             startActivity(new Intent(this, MainActivity.class));
         }
-
     }
-
 }
