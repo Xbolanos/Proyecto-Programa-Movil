@@ -12,7 +12,7 @@ public class Visita {
     public String nombreExperimento;
     public String nombreUsuario;
     public Date dia;
-    public Time hora;
+
     public String userId;
 
     public String getUserId() {
@@ -23,12 +23,12 @@ public class Visita {
         this.userId = userId;
     }
 
-    public Visita(String idVisita, String nombreExperimento, String nombreUsuario, Date dia, Time hora) {
+    public Visita(String idVisita, String nombreExperimento, String nombreUsuario, Date dia) {
         this.idVisita = idVisita;
         this.nombreExperimento = nombreExperimento;
         this.nombreUsuario = nombreUsuario;
         this.dia = dia;
-        this.hora = hora;
+
     }
 
     public String getIdVisita() {
@@ -63,11 +63,4 @@ public class Visita {
         this.dia = dia;
     }
 
-    public Time getHora() {
-        return hora;
-    }
-
-    public void setHora(Time hora) {
-        this.hora = hora;
-    }
 }

@@ -38,40 +38,16 @@
                 android:hint="Nombre Usuario"
                 android:inputType="text" />
 
-            <EditText
-                android:id="@+id/idVisita"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:hint="ID Visita"
-                android:inputType="text" />
-
-
-            <EditText
-                android:id="@+id/dia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:ems="10"
-                android:hint="Día"
-                android:inputType="date" />
-
-            <EditText
-                android:id="@+id/hora"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:ems="10"
-                android:hint="Hora"
-                android:inputType="time" />
 
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:background="@color/colorAccent"
                 android:onClick="addInformation"
-                android:text="Guardar" />
+                android:text="Guardar"
+                android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
         </LinearLayout>
 

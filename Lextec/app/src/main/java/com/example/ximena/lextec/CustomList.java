@@ -87,7 +87,7 @@ public class CustomList extends BaseAdapter {
             visitaHolder.nombreUsuario.setText(visita.getNombreUsuario());
             visitaHolder.nombreExperimento.setText(visita.getNombreExperimento());
             visitaHolder.dia.setText(visita.getDia().toString());
-            visitaHolder.hora.setText(visita.getHora().toString());
+
 
 
             visitaHolder.delete.setOnClickListener(new Button.OnClickListener() {
