@@ -17,7 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //defining view objects
     private EditText editTextUser;
@@ -78,4 +78,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+    @Override
+    public void onClick(View v) {
+
     }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+}

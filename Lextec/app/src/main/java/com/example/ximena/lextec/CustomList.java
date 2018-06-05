@@ -1,6 +1,7 @@
 package com.example.ximena.lextec;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +31,13 @@ public class CustomList extends BaseAdapter {
     }
 
     private class VisitaViewHolder {
-        TextView idVisita;
+
         TextView nombreExperimento;
         TextView nombreUsuario;
         TextView dia;
-        TextView hora;
+        TextView telefono;
+        TextView email;
+
         Button delete;
         Button modify;
     }
@@ -71,11 +74,12 @@ public class CustomList extends BaseAdapter {
         }
 
         visitaHolder = new VisitaViewHolder();
-        visitaHolder.idVisita= rowView.findViewById(R.id.id);
+
         visitaHolder.nombreExperimento = rowView.findViewById(R.id.experiment);
         visitaHolder.nombreUsuario = rowView.findViewById(R.id.name);
-        visitaHolder.hora = rowView.findViewById(R.id.date);
-        visitaHolder.dia = rowView.findViewById(R.id.time);
+        visitaHolder.telefono = rowView.findViewById(R.id.telefono);
+        visitaHolder.email = rowView.findViewById(R.id.email);
+        visitaHolder.dia = rowView.findViewById(R.id.date);
         visitaHolder.delete = rowView.findViewById(R.id.eliminar);
         visitaHolder.modify = rowView.findViewById(R.id.modify);
 
@@ -83,10 +87,14 @@ public class CustomList extends BaseAdapter {
         final Visita visita = web.get(position);
 
         if (visita != null) {
-            visitaHolder.idVisita.setText(visita.getIdVisita());
-            visitaHolder.nombreUsuario.setText(visita.getNombreUsuario());
-            visitaHolder.nombreExperimento.setText(visita.getNombreExperimento());
-            visitaHolder.dia.setText(visita.getDia().toString());
+            visitaHolder.email.setText("correo:"+visita.getEmail());
+            visitaHolder.telefono.setText("telefono:"+visita.getTelefono());
+            visitaHolder.nombreUsuario.setText("Nombre:"+visita.getNombreUsuario());
+            visitaHolder.nombreExperimento.setText("Experimento:"+visita.getNombreExperimento());
+
+
+            String date="Fecha:"+visita.getDia();
+            visitaHolder.dia.setText(date);
 
 
 

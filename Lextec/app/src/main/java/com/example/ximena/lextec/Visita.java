@@ -11,7 +11,9 @@ public class Visita {
     public String idVisita;
     public String nombreExperimento;
     public String nombreUsuario;
-    public Date dia;
+    public String dia;
+    public String email;
+    public String telefono;
 
     public String userId;
 
@@ -22,13 +24,34 @@ public class Visita {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+    public  Visita(){
 
-    public Visita(String idVisita, String nombreExperimento, String nombreUsuario, Date dia) {
+    }
+
+    public Visita(String idVisita, String nombreExperimento, String nombreUsuario, String dia,String email, String telefono) {
         this.idVisita = idVisita;
         this.nombreExperimento = nombreExperimento;
         this.nombreUsuario = nombreUsuario;
         this.dia = dia;
+        this.email = email;
+        this.telefono = telefono;
 
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getIdVisita() {
@@ -55,11 +78,11 @@ public class Visita {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public Date getDia() {
+    public String getDia() {
         return dia;
     }
 
-    public void setDia(Date dia) {
+    public void setDia(String dia) {
         this.dia = dia;
     }
 

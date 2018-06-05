@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -64,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference users= mDatabase.child("users");
         DatabaseReference userd=users.child(user.getUid());
-        userd.child("products").addListenerForSingleValueEvent(new ValueEventListener() {
+        userd.child("visitas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object value = dataSnapshot.getValue();
@@ -74,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 ArrayList<Visita> visitas= new ArrayList<Visita>();
 
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    Log.d("VISITA",postSnapshot.getValue().toString());
                     Visita post = postSnapshot.getValue(Visita.class);
                     post.setIdVisita(postSnapshot.getKey());
                     post.setUserId(user.getUid());

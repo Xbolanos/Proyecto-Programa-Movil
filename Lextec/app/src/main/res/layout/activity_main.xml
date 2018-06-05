@@ -7,8 +7,9 @@
     tools:context="com.example.ximena.lextec.MainActivity">
 
     <RelativeLayout
-        android:layout_width="351dp"
-        android:layout_height="489dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         tools:layout_editor_absoluteX="17dp"
         tools:layout_editor_absoluteY="6dp">
 
