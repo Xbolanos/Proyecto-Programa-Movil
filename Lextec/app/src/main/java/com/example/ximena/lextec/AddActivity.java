@@ -22,40 +22,54 @@ import java.sql.Date;
 
 
 public class AddActivity extends AppCompatActivity {
-    FirebaseStorage storage;
     private DatabaseReference mDatabase;
     private FirebaseAuth firebaseAuth;
+
+    private TextView name;
+    private TextView experiment;
+    private TextView phone;
+    private TextView email;
+
+    private String visitaId;
+    private boolean editing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
         firebaseAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        name =findViewById(R.id.nombreUsuario);
+        experiment =findViewById(R.id.nombreExperimento);
+        phone =findViewById(R.id.telefono);
+        email =findViewById(R.id.email);
+        editing = false;
+
+        Intent intent = getIntent();
+
+        if(intent.getExtras() != null) {
+            name.setText(intent.getStringExtra("Name"));
+            experiment.setText(intent.getStringExtra("ExperimentName"));
+            phone.setText(intent.getStringExtra("Phone"));
+            email.setText(intent.getStringExtra("Email"));
+            visitaId = intent.getStringExtra("IDVisita");
+            editing = true;
+        }
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
 
     public void addInformation(View view){
-
             FirebaseUser user = firebaseAuth.getCurrentUser();
             mDatabase = FirebaseDatabase.getInstance().getReference("/users/"+user.getUid()+"/visitas/");
             final ProgressDialog pd = new ProgressDialog(this);
             pd.setMessage("Uploading....");
             pd.show();
-            final String visitaId = mDatabase.push().getKey();
-            final TextView name =findViewById(R.id.nombreUsuario);
-            final TextView experiment =findViewById(R.id.nombreExperimento);
-            final TextView phone =findViewById(R.id.telefono);
-            final TextView email =findViewById(R.id.email);
-            Date date=new Date(System.currentTimeMillis());
 
+            if(!editing) {
+                visitaId = mDatabase.push().getKey();
+            }
+
+            Date date=new Date(System.currentTimeMillis());
             String sdate=date.toString();
             String sname=name.getText().toString();
             String sexperiment=experiment.getText().toString();

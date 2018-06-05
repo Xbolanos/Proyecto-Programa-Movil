@@ -1,6 +1,7 @@
 package com.example.ximena.lextec;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +104,22 @@ public class CustomList extends BaseAdapter {
                     mDatabase.child("users").child(visita.getIdVisita()).child("visitas").child(visita.getIdVisita()).removeValue();
                     web.remove(web.get(pos));
                     notifyDataSetChanged();
+                }
+            });
+
+            visitaHolder.modify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AddActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    intent.putExtra("ExperimentName", visita.getNombreExperimento());
+                    intent.putExtra("Phone", visita.getTelefono());
+                    intent.putExtra("Name", visita.getNombreUsuario());
+                    intent.putExtra("Email", visita.getEmail());
+                    intent.putExtra("IDVisita", visita.getIdVisita());
+
+                    context.startActivity(intent);
                 }
             });
         }
